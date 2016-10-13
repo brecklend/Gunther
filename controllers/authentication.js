@@ -1,3 +1,5 @@
+"use strict";
+
 const	jwt = require("jsonwebtoken"),
 		crypto = require("crypto"),
 		User = require("../models/user"),
@@ -29,6 +31,7 @@ exports.login = function (req, res, next) {
 };
 
 exports.register = function (req, res, next) {
+	console.log("in register controller");
 	const email = req.body.email;
 	const firstName = req.body.firstname;
 	const lastName = req.body.lastname;
@@ -59,7 +62,7 @@ exports.register = function (req, res, next) {
 
 		if (existingUser) {
 			return res.status(422).send({
-				"That email address is already in use"
+				error: "That email address is already in use"
 			});
 		}
 
