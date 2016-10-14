@@ -4,21 +4,25 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const config = require("../config/main");
 
-// module.exports.generateTokenFor = function(user) {
-// 	console.log("user.email", user.email);
-// 	var token = jwt.sign(user, config.secret, { expiresIn: 10080 });
-// 	console.log("token", token);
-// 	return res.send(token);
-// 	// return jwt.sign(user, config.secret, {
-// 	// 	expiresIn: 10080
-// 	// });
-// };
+exports.authenticateToken = function (req, res, next) {
+	console.log("authenticate token");
+	//next();
+	// var token = req.body.token;
 
-// module.exports.validate = function(token) {
-// 	console.log("token", token);
-// 	var verified = jwt.verify(token, config.secret);
-// 	console.log("verified", verified);
-// };
+	// jwt.verify(token, config.secret, function (err, decoded) {
+	// 	if (err) {
+	// 		return res.status(401).json({
+	// 			error: "Unauthorized"
+	// 		});
+	// 	}
+
+	// 	res.status(200).json({
+	// 		user: decoded
+	// 	});
+
+	// 	next();
+	// });
+};
 
 exports.validUser = function (user) {
 	var status = false;
@@ -45,21 +49,20 @@ exports.getTokenFor = function (user) {
 }
 
 exports.validToken = function (req, res, next) {
+	var token = req.body.token;
 
+	jwt.verify(token, config.secret, function (err, decoded) {
+		if (err) {
+			return res.status(401).json({
+				error: "Unauthorized"
+			});
+		}
+
+		res.status(200).json({
+			user: decoded
+		});
+	});
 };
-
-function getUserFor(req) {
-	var user;
-
-	switch (req.body.email) {
-		case "utah@point.com":
-		case "bodi@point.com":
-			user = { email: req.body.email };
-			break;
-	}
-
-	return user;
-}
 
 function getUserFor(req) {
 	var user;
