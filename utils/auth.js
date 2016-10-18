@@ -48,19 +48,20 @@ exports.getTokenFor = function (user) {
 	return "JWT " + token;
 }
 
-exports.validToken = function (req, res, next) {
+exports.validToken = function (req) {
+	console.log("auth.validToken");
 	var token = req.body.token;
+	console.log("token", token);
 
 	jwt.verify(token, config.secret, function (err, decoded) {
 		if (err) {
-			return res.status(401).json({
-				error: "Unauthorized"
-			});
+			console.log("yes there is an error");
+			return false;
 		}
-
-		res.status(200).json({
-			user: decoded
-		});
+		else {
+			console.log("no error");
+			return true;
+		}
 	});
 };
 
