@@ -30,7 +30,7 @@ exports.validUser = function (user) {
 	var password = user.body.password;
 
 	switch (true) {
-		case email == "utah@point.com" && passwod == "utahpwd":
+		case email == "utah@point.com" && password == "utahpwd":
 		case email == "bodi@point.com" && password == "bodipwd":
 			status = true;
 			break;
@@ -49,20 +49,16 @@ exports.getTokenFor = function (user) {
 }
 
 exports.validToken = function (req) {
-	console.log("auth.validToken");
+	var status = false;
 	var token = req.body.token;
-	console.log("token", token);
 
 	jwt.verify(token, config.secret, function (err, decoded) {
-		if (err) {
-			console.log("yes there is an error");
-			return false;
-		}
-		else {
-			console.log("no error");
-			return true;
+		if (!err) {
+			status = true;
 		}
 	});
+
+	return status;
 };
 
 function getUserFor(req) {
