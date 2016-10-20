@@ -4,26 +4,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const config = require("../config/main");
 
-exports.authenticateToken = function (req, res, next) {
-	console.log("authenticate token");
-	//next();
-	// var token = req.body.token;
-
-	// jwt.verify(token, config.secret, function (err, decoded) {
-	// 	if (err) {
-	// 		return res.status(401).json({
-	// 			error: "Unauthorized"
-	// 		});
-	// 	}
-
-	// 	res.status(200).json({
-	// 		user: decoded
-	// 	});
-
-	// 	next();
-	// });
-};
-
 exports.validUser = function (user) {
 	var status = false;
 	var email = user.body.email;
@@ -47,19 +27,6 @@ exports.getTokenFor = function (user) {
 
 	return "JWT " + token;
 }
-
-exports.validToken = function (req) {
-	var status = false;
-	var token = req.body.token;
-
-	jwt.verify(token, config.secret, function (err, decoded) {
-		if (!err) {
-			status = true;
-		}
-	});
-
-	return status;
-};
 
 function getUserFor(req) {
 	var user;
